@@ -5,7 +5,7 @@ import serial.tools.list_ports
 
 MAX_READ = 40960
 DETECT_TIMEOUT = 0.1
-READ_TIMEOUT = 0.1
+READ_TIMEOUT = 0.5
 
 
 class Serial(object):
