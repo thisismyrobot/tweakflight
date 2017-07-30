@@ -3,9 +3,9 @@ import serial
 import serial.tools.list_ports
 
 
-MAX_READ = 4096
+MAX_READ = 40960
 DETECT_TIMEOUT = 0.1
-READ_TIMEOUT = 2
+READ_TIMEOUT = 0.1
 
 
 class Serial(object):
@@ -28,15 +28,21 @@ class Serial(object):
         conn.write('{}\r\n'.format(data).encode())
 
     @staticmethod
-    def _read(conn):
-        data = conn.read(MAX_READ).decode()
+    def _read(conn, custom_read_timeout=None):
+        old_timeout = conn.timeout
+        try:
+            if custom_read_timeout is not None:
+                conn.timeout = custom_read_timeout
+            data = conn.read(MAX_READ).decode()
+        finally:
+            conn.timeout = old_timeout
         return list(filter(None, map(str.strip, data.split('\r\n'))))
 
     @staticmethod
-    def _get(conn, data, comments=False):
+    def _get(conn, data, comments=False, custom_read_timeout=None):
         """Send and retrieve data."""
         Serial._write(conn, data)
-        response = Serial._read(conn)
+        response = Serial._read(conn, custom_read_timeout)
 
         # Strip command echo.
         if response[0] == data:
@@ -50,9 +56,13 @@ class Serial(object):
 
         return response
 
-    def get(self, data, comments=False):
+    def get(self, data, comments=False, custom_read_timeout=None):
         """Send and retrieve data."""
-        return Serial._get(self._conn, data, comments)
+        return Serial._get(self._conn, data, comments, custom_read_timeout)
+
+    def current_port(self):
+        """What port am I using?"""
+        return self._conn.port
 
     def _find(self):
         """Try to find the port."""

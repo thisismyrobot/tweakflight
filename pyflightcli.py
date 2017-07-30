@@ -1,6 +1,11 @@
 """Basic CLI interface."""
+import os
+
 import fire
 import pyflightcli.connection as connection
+
+
+DUMP_ALL_TIMEOUT = 3  # Seems slower when doing a dump all
 
 
 class PyFlightCli(object):
@@ -17,6 +22,10 @@ class PyFlightCli(object):
             if tokens[0] == 'set' and tokens[2] == '=':
                 output[tokens[1]] = ' '.join(tokens[3:])
         return output
+
+    def what_port(self):
+        """Return what port the CLI was detected on."""
+        return self._conn.current_port()
 
     def rates(self):
         """Return the current rate profile's rates."""
@@ -38,6 +47,15 @@ class PyFlightCli(object):
         response = self._conn.get('rateprofile {}'.format(profile_idx))
         if response[0] != 'rateprofile {}'.format(profile_idx):
             raise Exception('Failed to set rateprofile!')
+
+    def dump(self):
+        """Do a complete dump."""
+        data = self._conn.get(
+            'dump all',
+            comments=True,
+            custom_read_timeout=DUMP_ALL_TIMEOUT
+        )
+        return os.linesep.join(data)
 
 
 if __name__ == '__main__':

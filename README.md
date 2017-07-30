@@ -19,6 +19,23 @@ To see commands:
 
 (Thank you python-fire!)
 
+Playing with rate profiles:
+
+    python pyflightcli.py rate-profile -- -h
+    ...
+    Docstring:   Set the profile from 0-2 or return the current one if omitted.
+
+    Usage:       pyflightcli.py rate-profile [PROFILE]
+                 pyflightcli.py rate-profile [--profile PROFILE]
+
+    python pyflightcli.py rate-profile
+    0
+
+    python pyflightcli.py rate-profile 1
+
+    python pyflightcli.py rate-profile
+    1
+
 ## Limitations
 
 Only tested against Betaflight 3.1.7 so far.
