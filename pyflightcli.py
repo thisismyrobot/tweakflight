@@ -4,6 +4,7 @@ import re
 
 import fire
 import pyflightcli.connection as connection
+import pyflightcli.reverse as reverse
 
 
 DUMP_ALL_TIMEOUT = 3  # Seems slower when doing a dump all
@@ -101,6 +102,11 @@ class PyFlightCli(object):
             custom_read_timeout=DUMP_ALL_TIMEOUT
         )
         return os.linesep.join(data)
+
+    def interact(self):
+        """With great power comes great responsibility."""
+        analogues = reverse.read_analogues(self._conn)
+        import pdb; pdb.set_trace()
 
 
 if __name__ == '__main__':
