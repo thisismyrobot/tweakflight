@@ -93,6 +93,16 @@ class PyFlightCli(object):
         if response[0] != 'profile {}'.format(profile_idx):
             raise Exception('Failed to set profile!')
 
+
+    def diff(self):
+        """Do a complete diff."""
+        data = self._conn.get(
+            'diff all',
+            comments=True,
+            custom_read_timeout=DUMP_ALL_TIMEOUT
+        )
+        return os.linesep.join(data)
+
     def dump(self):
         """Do a complete dump."""
         data = self._conn.get(
