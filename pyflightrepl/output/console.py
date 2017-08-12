@@ -1,6 +1,15 @@
 """Console printer."""
+import collections
 import os
 import sys
+
+
+__BUFFER = collections.defaultdict(str)
+
+def _flush():
+    os.system('cls')
+    sys.stdout.write('{}\n'.format(__BUFFER['top_line']))
+    sys.stdout.write('{}\n'.format(__BUFFER['bottom_line']))
 
 
 def print_state(state, message=None):
@@ -8,9 +17,7 @@ def print_state(state, message=None):
     current_setting = state.current_setting
     setting_value = state.current_value
 
-    output = '{}: {}\n'.format(current_setting, setting_value)
-    if message is not None:
-        output += '{}\n'.format(message)
+    __BUFFER['top_line'] = '{}: {}'.format(current_setting, setting_value)
+    __BUFFER['bottom_line'] = message if message is not None else ''
 
-    sys.stdout.write('-----------------\n')
-    sys.stdout.write(output)
+    _flush()
