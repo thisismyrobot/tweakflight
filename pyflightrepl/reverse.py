@@ -22,9 +22,9 @@ def dump_profiles(conn):
 def read_analogues(conn):
     """Try to return all the analogue settings."""
     analogues = []
-    base_settings = conn.get('dump all')
+    base_settings = conn.get('dump all', custom_read_timeout=3)
 
-    profile_settings = dump_profiles(conn)
+    profile_settings = []  #dump_profiles(conn)
 
     for setting in base_settings + profile_settings:
 
@@ -40,6 +40,6 @@ def read_analogues(conn):
         except ValueError:
             continue
 
-        analogues.append((tokens[1], tokens[3]))
+        analogues.append((tokens[1], value))
 
     return analogues

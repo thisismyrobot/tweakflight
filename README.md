@@ -15,25 +15,25 @@ You need Python 3.6.
 
 To see commands:
 
-    python pyflightcli.py
+    python cli.py
 
 (Thank you python-fire!)
 
 Playing with rate profiles:
 
-    python pyflightcli.py rate-profile -- -h
+    python cli.py rate-profile -- -h
     ...
     Docstring:   Set the profile from 0-2 or return the current one if omitted.
 
-    Usage:       pyflightcli.py rate-profile [PROFILE]
-                 pyflightcli.py rate-profile [--profile PROFILE]
+    Usage:       cli.py rate-profile [PROFILE]
+                 cli.py rate-profile [--profile PROFILE]
 
-    python pyflightcli.py rate-profile
+    python cli.py rate-profile
     0
 
-    python pyflightcli.py rate-profile 1
+    python cli.py rate-profile 1
 
-    python pyflightcli.py rate-profile
+    python cli.py rate-profile
     1
 
 ## Limitations
