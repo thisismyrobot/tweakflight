@@ -81,7 +81,7 @@ def repl():
 
     settings = reverse.read_analogues(conn)
     state = State(settings, conn)
-    printer.print_state(state, 'Ready')
+    printer.print_state(state, '{} settings'.format(len(settings)))
 
     while True:
         command = reader.read_blocking()

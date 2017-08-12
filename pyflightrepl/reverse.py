@@ -1,34 +1,15 @@
 """Reverse-engineer settings from the CLI."""
-def dump_profiles(conn):
-    """Iterate the profiles."""
-    profile_settings = []
-
-    for profile_i in range(3):
-        conn.get('profile {}'.format(profile_i))
-
-        for line in conn.get('dump profile'):
-            profile_settings.append('p{}:{}'.format(profile_i, line))
-
-        for rate_profile_i in range(3):
-            conn.get('rateprofile {}'.format(rate_profile_i))
-            for line in conn.get('dump rates'):
-                profile_settings.append(
-                    'p{}:rp{}:{}'.format(profile_i, rate_profile_i, line)
-                )
-
-    return profile_settings
-
-
 def read_analogues(conn):
     """Try to return all the analogue settings."""
     analogues = []
-    base_settings = conn.get('dump all', custom_read_timeout=3)
 
-    profile_settings = []  #dump_profiles(conn)
+    # Deliberately use the current profile + rateprofile.
+    raw_settings = conn.get('dump', custom_read_timeout=3)
 
-    for setting in base_settings + profile_settings:
+    for setting in raw_settings:
 
         tokens = setting.split(' ')
+
         if len(tokens) != 4:
             continue
 
