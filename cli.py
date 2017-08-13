@@ -104,6 +104,15 @@ class PyFlightCli(object):
         return os.linesep.join(data)
 
     def dump(self):
+        """Do a current profile/rateprofile dump."""
+        data = self._conn.get(
+            'dump',
+            comments=True,
+            custom_read_timeout=DUMP_ALL_TIMEOUT
+        )
+        return os.linesep.join(data)
+
+    def dump_all(self):
         """Do a complete dump."""
         data = self._conn.get(
             'dump all',
