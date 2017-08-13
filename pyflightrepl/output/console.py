@@ -10,6 +10,9 @@ SUBSTITUTIONS = {
     'failsafe': 'fsafe',
     'command': 'cmd',
     'control': 'ctrl',
+    'declination': 'decln',
+    'sensitivity': 'sens',
+    'warning': 'warn',
 }
 __BUFFER = []
 
@@ -19,14 +22,18 @@ def _flush():
     sys.stdout.write('\n'.join(__BUFFER))
 
 
-def pretty_line_break(words, max_chars=16):
+def pretty_line_break(words, max_chars):
     """Tidily split the sentences over multiple lines.
 
     Return it as a list of lines.
     """
-    lines = [words.pop(0)]
-    while len(words) > 0:
-        next_word = words.pop(0)
+    if len(words) == 0:
+        return []
+
+    remaining_words = list(words)
+    lines = [remaining_words.pop(0)]
+    while len(remaining_words) > 0:
+        next_word = remaining_words.pop(0)
         current_line = lines[-1]
         candidate = ' '.join((current_line, next_word))
         if len(candidate) <= max_chars:
@@ -53,14 +60,22 @@ def print_state(state, message=None):
     Somewhat simulate a 16x4 LCD because that's what I'll use next.
     """
     setting_words = state.current_setting.replace('_', ' ').split(' ')
-    setting_value = state.current_value
 
-    abbreviated_words = abbreviate(setting_words)
-    setting_lines = pretty_line_break(abbreviated_words)
+    buffer_lines = (pretty_line_break(abbreviate(setting_words), 16) + [''] * 4)[:4]
+    buffer_lines[2] = '-' * 16
+
+    final_line = '{:^16}'.format(
+        '{}{}'.format(
+            state.current_value,
+            ' ({:+})'.format(state.current_increment) if state.current_increment != 0 else '',
+        )
+    )
+
+    buffer_lines[3] = final_line
 
     __BUFFER.clear()
-    __BUFFER.extend(setting_lines)
-    __BUFFER.append(str(setting_value))
+    __BUFFER.extend(buffer_lines)
+#    __BUFFER.append(setting_value_line)
     __BUFFER.append(message if message is not None else '')
 
     _flush()

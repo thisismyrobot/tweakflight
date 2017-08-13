@@ -18,6 +18,7 @@ class State(object):
         self._settings = dict(settings)
         self._setting_keys = sorted(self._settings.keys())
         self._setting_index = 0
+        self._current_increment = 0
 
     @property
     def _current_key(self):
@@ -31,13 +32,23 @@ class State(object):
     def current_value(self):
         return self._settings[self._current_key]
 
+    @property
+    def current_increment(self):
+        return self._current_increment
+
     def _next(self):
+        self._settings[self._current_key] -= self.current_increment
+        self._current_increment = 0
+
         self._setting_index = min(
             len(self._settings) - 1,
             self._setting_index + 1
         )
 
     def _prev(self):
+        self._settings[self._current_key] -= self.current_increment
+        self._current_increment = 0
+
         self._setting_index = max(
             0,
             self._setting_index - 1
@@ -45,11 +56,16 @@ class State(object):
 
     def _increment(self):
         self._settings[self._current_key] += 1
+        self._current_increment += 1
 
     def _decrement(self):
         self._settings[self._current_key] = max(0, self.current_value - 1)
+        self._current_increment -= 1
 
     def _save(self):
+        if self.current_increment == 0:
+            return 'no change'
+        self._current_increment = 0
         key = self.current_setting
         value = self.current_value
         cmd = 'set {} = {}'.format(key, value)
