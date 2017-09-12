@@ -5,14 +5,17 @@ Maps:
     * Up and down arrow = prev and next value (up = positive increase).
     * Space = Save.
 """
+import os
+
 import pyflightrepl.commands as commands
 
 
-LEFT = 75
-RIGHT = 77
-UP = 72
-DOWN = 80
+LEFT = 68 if os.name == 'posix' else 75
+RIGHT = 67 if os.name == 'posix' else 77
+UP = 65 if os.name == 'posix' else 72
+DOWN = 66 if os.name == 'posix' else 80
 SPACE = 32
+ARROW_PRE = 91 if os.name == 'posix' else 224
 
 
 def read_blocking():
@@ -21,7 +24,7 @@ def read_blocking():
 
     if key == SPACE:
         return commands.SAVE
-    elif key == 224:  # For arrow keys
+    elif key == ARROW_PRE:  # For arrow keys
         key = _getord()
         if key == LEFT:
             return commands.PREV_SETTING

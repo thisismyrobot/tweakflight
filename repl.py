@@ -7,7 +7,7 @@ import pyflightrepl.commands as commands
 import pyflightrepl.reverse as reverse
 
 # Change per hardware.
-import pyflightrepl.output.console as printer
+import pyflightrepl.output.lcd as printer
 import pyflightrepl.input.keyboard as reader
 
 
@@ -101,6 +101,8 @@ def repl():
 
     while True:
         command = reader.read_blocking()
+        if command is None:
+            continue
         message = state.execute(command)
         printer.print_state(state, message)
 

@@ -1,10 +1,12 @@
 """LCD printer, heavily based on the Console printer."""
 import serial
 
-import console as console_printer
+import pyflightrepl.output.console as console_printer
 
 
 __BUFFER = []
+
+# This is hard-coded based on my hardware setup.
 __SER_LCD = serial.Serial('/dev/ttyAMA0', 38400)
 
 
@@ -12,7 +14,7 @@ def _flush():
     # clear
     __SER_LCD.write(b'\0xFE\0x01')
 
-    __SER_LCD.write(__BUFFER[0])
+    __SER_LCD.write(__BUFFER[0].encode())
 
 
 def pretty_line_break(words, max_chars):
