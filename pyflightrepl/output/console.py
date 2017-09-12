@@ -70,12 +70,10 @@ def print_state(state, message=None):
             ' ({:+})'.format(state.current_increment) if state.current_increment != 0 else '',
         )
     )
-
     buffer_lines[3] = final_line
 
     __BUFFER.clear()
     __BUFFER.extend(buffer_lines)
-#    __BUFFER.append(setting_value_line)
     __BUFFER.append(message if message is not None else '')
 
     _flush()
