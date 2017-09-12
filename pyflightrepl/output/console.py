@@ -18,7 +18,10 @@ __BUFFER = []
 
 
 def _flush():
-    os.system('cls')
+    if os.name == 'posix':
+        os.system('clear')
+    else:
+        os.system('cls')
     sys.stdout.write('\n'.join(__BUFFER))
 
 
@@ -57,14 +60,14 @@ def abbreviate(words):
 def print_state(state, message=None):
     """Format current state and print to console.
 
-    Somewhat simulate a 16x4 LCD because that's what I'll use next.
+    Somewhat simulate a 20x4 LCD because that's what I'll use next.
     """
     setting_words = state.current_setting.replace('_', ' ').split(' ')
 
-    buffer_lines = (pretty_line_break(abbreviate(setting_words), 16) + [''] * 4)[:4]
-    buffer_lines[2] = '-' * 16
+    buffer_lines = (pretty_line_break(abbreviate(setting_words), 20) + [''] * 4)[:4]
+    buffer_lines[2] = '-' * 20
 
-    final_line = '{:^16}'.format(
+    final_line = '{:^20}'.format(
         '{}{}'.format(
             state.current_value,
             ' ({:+})'.format(state.current_increment) if state.current_increment != 0 else '',
