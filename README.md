@@ -5,11 +5,13 @@ Some basic python-based command-line tools to interact with the BetaFlight
 
 ## Install
 
-You need Python 3.6.
+You need Python 3.6 on a Raspberry Pi.
 
-    python3 -m venv venv
-    venv\Scripts\activate
-    pip install -r requirements
+    pip install -r requirements.txt
+
+I'm using /dev/ttyAMA0 for the serial port, you'll need to allow access by
+turning off the getty stuff (Google is your friend, this changes per Raspbian
+version).
 
 ## Usage
 
