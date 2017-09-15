@@ -7,7 +7,7 @@ Maps:
 """
 import os
 
-import pyflightrepl.commands as commands
+import tweakflightrepl.commands as commands
 
 
 LEFT = 68 if os.name == 'posix' else 75

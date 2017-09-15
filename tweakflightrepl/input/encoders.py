@@ -10,7 +10,7 @@ import queue
 
 import RPi.GPIO as gpio
 
-import pyflightrepl.commands as commands
+import tweakflightrepl.commands as commands
 
 
 __SETUP = False

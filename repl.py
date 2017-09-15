@@ -2,13 +2,13 @@
 
 Allows for an embedded hardware xFlight interface - in this case a RasPi.
 """
-import pyflightrepl.connection as connection
-import pyflightrepl.commands as commands
-import pyflightrepl.reverse as reverse
+import tweakflightrepl.connection as connection
+import tweakflightrepl.commands as commands
+import tweakflightrepl.reverse as reverse
 
 # Change per hardware.
-import pyflightrepl.output.lcd as printer
-import pyflightrepl.input.encoders as reader
+import tweakflightrepl.output.lcd as printer
+import tweakflightrepl.input.encoders as reader
 
 
 class State(object):

@@ -1,7 +1,7 @@
 """LCD printer, heavily based on the Console printer."""
 import serial
 
-import pyflightrepl.output.console as console_printer
+import tweakflightrepl.output.console as console_printer
 
 
 __BUFFER = []
