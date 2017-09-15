@@ -7,7 +7,7 @@ import tweakflightrepl.output.console as console_printer
 __BUFFER = []
 
 # This is hard-coded based on my hardware setup.
-__SER_LCD = serial.Serial('/dev/ttyAMA0', 38400)
+__SER_LCD = serial.Serial('/dev/ttyAMA0', 9600)
 
 
 def _flush():
