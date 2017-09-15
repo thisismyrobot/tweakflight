@@ -23,6 +23,7 @@ def _flush():
     else:
         os.system('cls')
     sys.stdout.write('\n'.join(__BUFFER))
+    sys.stdout.flush()
 
 
 def pretty_line_break(words, max_chars):
@@ -68,15 +69,23 @@ def print_state(state, message=None):
     buffer_lines[2] = '-' * 20
 
     final_line = '{:^20}'.format(
-        '{}{}'.format(
+        '{}{}{}'.format(
             state.current_value,
             ' ({:+})'.format(state.current_increment) if state.current_increment != 0 else '',
+            ' ({})'.format(message) if message is not None else ''
         )
     )
     buffer_lines[3] = final_line
 
     __BUFFER.clear()
     __BUFFER.extend(buffer_lines)
-    __BUFFER.append(message if message is not None else '')
 
+    _flush()
+
+
+def print_simple(message):
+    """Direct-print a simple message."""
+    lines = pretty_line_break(message.split(' '), 20)
+    __BUFFER.clear()
+    __BUFFER.extend(lines)
     _flush()

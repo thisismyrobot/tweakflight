@@ -2,6 +2,8 @@
 
 Allows for an embedded hardware xFlight interface - in this case a RasPi.
 """
+import time
+
 import tweakflightrepl.connection as connection
 import tweakflightrepl.commands as commands
 import tweakflightrepl.reverse as reverse
@@ -93,7 +95,12 @@ class State(object):
 
 def repl():
     """REPL."""
-    conn = connection.Serial()
+    printer.print_simple('Starting...')
+    try:
+        conn = connection.Serial()
+    except:
+        printer.print_simple('No drone detected!')
+        return
 
     settings = reverse.read_analogues(conn)
     state = State(settings, conn)
@@ -108,4 +115,10 @@ def repl():
 
 
 if __name__ == '__main__':
-    repl()
+    while True:
+        try:
+            repl()
+        except:
+            printer.print_simple('Crashed! Retrying in 5s...')
+        finally:
+            time.sleep(5)

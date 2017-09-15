@@ -31,7 +31,7 @@ def abbreviate(words):
 
 
 def print_state(state, message=None):
-    """Format current state and print to console.
+    """Format current state and print to LCD.
     """
     setting_words = state.current_setting.replace('_', ' ').split(' ')
 
@@ -50,4 +50,12 @@ def print_state(state, message=None):
     __BUFFER.clear()
     __BUFFER.extend(buffer_lines)
 
+    _flush()
+
+
+def print_simple(message):
+    """Direct-print a simple message."""
+    lines = pretty_line_break(message.split(' '), 20)
+    __BUFFER.clear()
+    __BUFFER.extend(lines)
     _flush()
