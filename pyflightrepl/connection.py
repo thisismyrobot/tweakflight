@@ -65,11 +65,17 @@ class Serial(object):
         return self._conn.port
 
     def _find(self):
-        """Try to find the port."""
-        ports = list(serial.tools.list_ports.comports())
+        """Try to find the port.
 
-        # On the Pi the USB xFlight controller appears before the LCD.
-        for port in sorted(ports):
+        Deliberately exclude the port on the GPIO, we're plugging in the
+        controller to a USB port.
+        """
+        ports = [port
+                 for port
+                 in serial.tools.list_ports.comports()
+                 if port != '/dev/ttyAMA0']
+
+        for port in ports:
             try:
                 conn = serial.Serial(
                     port.device,
