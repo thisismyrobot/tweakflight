@@ -73,7 +73,7 @@ class Serial(object):
         ports = [port
                  for port
                  in serial.tools.list_ports.comports()
-                 if port != '/dev/ttyAMA0']
+                 if port.device != '/dev/ttyAMA0']
 
         for port in ports:
             try:
