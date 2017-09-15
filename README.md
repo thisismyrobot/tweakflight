@@ -26,3 +26,9 @@ To run it:
 ## Hardware
 
 TODO :(
+
+Basically it is a Raspberry Pi Zero, with two 24-step rotary encoders (with
+push buttons) to select settings (left encoder) and change values (right
+encoder). Pressing both buttons saves the setting.
+
+The LCD is a 20x4 with a SerLCD backpack.
