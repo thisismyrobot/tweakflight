@@ -2,15 +2,20 @@
 
 Allows for an embedded hardware xFlight interface - in this case a RasPi.
 """
+import os
 import time
 
 import tweakflightrepl.connection as connection
 import tweakflightrepl.commands as commands
 import tweakflightrepl.reverse as reverse
 
-# Change per hardware.
-import tweakflightrepl.output.lcd as printer
-import tweakflightrepl.input.encoders as reader
+# If on posix (assume posix = raspi) then use LCD and encoders.
+if os.name == 'posix':
+    import tweakflightrepl.output.lcd as printer
+    import tweakflightrepl.input.encoders as reader
+else:
+    import tweakflightrepl.output.console as printer
+    import tweakflightrepl.input.keyboard as reader
 
 
 class State(object):
